@@ -16,15 +16,4 @@ public class BodiesTest
 		assertEquals("Zezima", body.get("rsn").getAsString());
 		assertEquals(2, body.entrySet().size());
 	}
-
-	@Test
-	public void aTestRequestCarriesOnlyTheNameAndTheKind()
-	{
-		JsonObject body = Bodies.test("Zezima", "pb");
-
-		assertEquals("test", body.get("type").getAsString());
-		assertEquals("Zezima", body.get("rsn").getAsString());
-		assertEquals("pb", body.get("kind").getAsString());
-		assertEquals(3, body.entrySet().size());
-	}
 }

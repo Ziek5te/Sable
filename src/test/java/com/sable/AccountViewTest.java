@@ -493,6 +493,124 @@ public class AccountViewTest
 		assertEquals(1, find(panel, Ui.Note.class).size());
 	}
 
+	private static SablePanel panelFor(ClanInfo clan, boolean connected, String liveRank) throws Exception
+	{
+		SablePanel[] holder = new SablePanel[1];
+		SwingUtilities.invokeAndWait(() -> holder[0] = new SablePanel(new SablePanel.Source()
+		{
+			@Override
+			public boolean connected()
+			{
+				return connected;
+			}
+
+			@Override
+			public ClanInfo clan()
+			{
+				return clan;
+			}
+
+			@Override
+			public String liveRank()
+			{
+				return liveRank;
+			}
+
+			@Override
+			public AccountView.Icons icons()
+			{
+				return testIcons();
+			}
+
+			@Override
+			public long version()
+			{
+				return 0;
+			}
+
+			@Override
+			public void refreshClan()
+			{
+			}
+
+			@Override
+			public void switchLadder(String to, java.util.function.Consumer<String> done)
+			{
+			}
+		}));
+
+		return holder[0];
+	}
+
+	private static void picture(SablePanel panel, int height, String name) throws Exception
+	{
+		new File("build").mkdirs();
+		BufferedImage image = new BufferedImage(225, height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = image.createGraphics();
+		g.setColor(new Color(40, 40, 40));
+		g.fillRect(0, 0, 225, height);
+		panel.setSize(225, height);
+		layoutAll(panel);
+		panel.paint(g);
+		g.dispose();
+		ImageIO.write(image, "png", new File("build/" + name));
+	}
+
+	/** Writes the panel as it looks in its main states, for looking at. Asserts only that the pictures are made. */
+	@Test
+	public void thePanelPicturesAreWritten() throws Exception
+	{
+		System.setProperty("java.awt.headless", "true");
+
+		long now = System.currentTimeMillis();
+
+		ClanInfo full = ClanInfo.fromJson(new JsonParser().parse(
+			"{\"points\":{\"total\":663},"
+				+ "\"accounts\":[\"Ziek5te\",\"Z 5 S\"],"
+				+ "\"pvm\":{\"rank\":\"Bladed\",\"game\":\"Duellist\",\"from\":500,\"next\":{\"name\":\"Tempered\",\"left\":337,\"at\":1000}},"
+				+ "\"loyalty\":{\"days\":85,\"rank\":\"Sworn\",\"game\":\"Steel\",\"from\":30,\"next\":{\"name\":\"Stalwart\",\"left\":5,\"at\":90}},"
+				+ "\"ladder\":{\"inClan\":true,\"on\":\"charter\",\"pending\":null,\"targets\":[{\"to\":\"loyalty\",\"rankName\":\"Sworn\"}]},"
+				+ "\"recent\":[{\"what\":\"Tome of Fire (empty)\",\"points\":2,\"at\":" + (now - 19 * 86_400_000L) + ",\"detail\":\"Drop on Ziek5te\",\"url\":\"https://discord.com/channels/1/2/3\"},"
+				+ "{\"what\":\"Skotos\",\"points\":50,\"at\":" + (now - 24 * 86_400_000L) + "},"
+				+ "{\"what\":\"Justiciar faceguard\",\"points\":4,\"at\":" + (now - 38 * 86_400_000L) + ",\"url\":\"https://discord.com/channels/1/2/4\"},"
+				+ "{\"what\":\"Tormented synapse\",\"points\":39,\"at\":" + (now - 43 * 86_400_000L) + "},"
+				+ "{\"what\":\"Tanzanite fang\",\"points\":10,\"at\":" + (now - 46 * 86_400_000L) + "}],"
+				+ "\"links\":{\"invite\":\"https://discord.gg/SableOSRS\",\"events\":\"https://discord.com/channels/1/5\",\"announcements\":\"https://discord.com/channels/1/6\",\"leaderboard\":\"https://discord.com/channels/1/7\"},"
+				+ "\"pending\":[{\"item\":\"Armadyl crossbow\",\"points\":12,\"full\":25,\"until\":" + (now + 20 * 3_600_000L) + "}],\"dmUrl\":\"https://discord.com/channels/@me/1\","
+				+ "\"ranks\":[{\"group\":\"Loyalty\",\"name\":\"Recruit\",\"game\":\"Bronze\",\"how\":\"From joining\"},{\"group\":\"Loyalty\",\"name\":\"Retainer\",\"game\":\"Iron\",\"how\":\"7 days in the clan\"},"
+				+ "{\"group\":\"Loyalty\",\"name\":\"Sworn\",\"game\":\"Steel\",\"how\":\"30 days in the clan\"},{\"group\":\"Loyalty\",\"name\":\"Stalwart\",\"game\":\"Mithril\",\"how\":\"90 days in the clan\"},"
+				+ "{\"group\":\"PvM\",\"name\":\"Blooded\",\"game\":\"Recruit\",\"how\":\"200 clan points\"},{\"group\":\"PvM\",\"name\":\"Bladed\",\"game\":\"Duellist\",\"how\":\"500 clan points\"},"
+				+ "{\"group\":\"PvM\",\"name\":\"Tempered\",\"game\":\"Slayer\",\"how\":\"1,000 clan points\"},"
+				+ "{\"group\":\"Everything else\",\"name\":\"Charter\",\"game\":\"Astral\",\"how\":\"Here in the first week. Never given again.\"},"
+				+ "{\"group\":\"Everything else\",\"name\":\"Echo\",\"game\":\"Priest\",\"how\":\"A second account. Ranks go on your main.\"}],"
+				+ "\"rankIcons\":{\"duellist\":\"https://cdn.discordapp.com/emojis/1.png?size=32\",\"steel\":\"https://cdn.discordapp.com/emojis/2.png?size=32\"}}").getAsJsonObject());
+
+		SablePanel closed = panelFor(full, true, "Astral");
+		picture(closed, 800, "panel-main.png");
+
+		SablePanel open = panelFor(full, true, "Astral");
+
+		for (JLabel l : find(open, JLabel.class))
+		{
+			if (l.getText() != null && l.getText().contains("ALL RANKS"))
+			{
+				for (java.awt.event.MouseListener m : l.getMouseListeners())
+				{
+					m.mouseClicked(null);
+				}
+			}
+		}
+
+		SwingUtilities.invokeAndWait(() -> { });
+		picture(open, 1000, "panel-ranks-open.png");
+
+		ClanInfo wrong = ClanInfo.fromJson(new JsonParser().parse("{\"mismatch\":true,\"accounts\":[\"Ziek5te\",\"Z 5 S\"]}").getAsJsonObject());
+		picture(panelFor(wrong, true, "Squire"), 160, "panel-wrong-character.png");
+		picture(panelFor(null, false, null), 120, "panel-disconnected.png");
+
+		assertTrue(new File("build/panel-main.png").length() > 1000);
+	}
+
 	/** Components that are anonymous separators: the ones with no class name of their own and a thin fixed height. */
 	private static int count(Container c, String what)
 	{

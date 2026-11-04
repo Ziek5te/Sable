@@ -93,18 +93,6 @@ public class SablePlugin extends Plugin
 	// At most this many clan chat lines a minute go to Discord.
 	private static final int CHAT_LINES_PER_MINUTE = 20;
 
-	// Config key of each test button, and the kind of sample card it asks the bot for.
-	private static final Map<String, String> TEST_BUTTONS = Map.of(
-		"testDrop", "drop",
-		"testClog", "clog",
-		"testPet", "pet",
-		"testDiary", "diary",
-		"testCombat", "combat",
-		"testQuest", "quest",
-		"testKc", "kc",
-		"testPb", "pb"
-	);
-
 	@Inject
 	private Client client;
 
@@ -688,27 +676,6 @@ public class SablePlugin extends Plugin
 
 			return;
 		}
-
-		String kind = TEST_BUTTONS.get(event.getKey());
-
-		// A test is a tick box that puts itself back: only the tick sends.
-		if (!SableConfig.GROUP.equals(event.getGroup()) || kind == null || !"true".equals(event.getNewValue()))
-		{
-			return;
-		}
-
-		configManager.setConfiguration(SableConfig.GROUP, event.getKey(), false);
-
-		Player me = client.getLocalPlayer();
-
-		if (me == null || me.getName() == null)
-		{
-			sender.say("Sable test: log in to your character first.");
-
-			return;
-		}
-
-		sender.test(Text.sanitize(me.getName()), kind);
 	}
 
 	@Subscribe

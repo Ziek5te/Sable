@@ -31,14 +31,6 @@ public interface SableConfig extends Config
 	)
 	String chat = "chat";
 
-	@ConfigSection(
-		name = "Staff Tools",
-		description = "Post a sample card, marked TEST, in the clan's channel. Staff only. Nothing is saved and no points are given.",
-		position = 90,
-		closedByDefault = true
-	)
-	String staff = "staff";
-
 	@ConfigItem(
 		keyName = "address",
 		name = "Server Address",
@@ -124,51 +116,4 @@ public interface SableConfig extends Config
 		return true;
 	}
 
-	@ConfigItem(keyName = "testDrop", name = "Test Drop", description = "Tick to post a sample drop card", section = staff, position = 91)
-	default boolean testDrop()
-	{
-		return false;
-	}
-
-	@ConfigItem(keyName = "testClog", name = "Test Collection Log", description = "Tick to post a sample collection log card", section = staff, position = 92)
-	default boolean testClog()
-	{
-		return false;
-	}
-
-	@ConfigItem(keyName = "testPet", name = "Test Pet", description = "Tick to post a sample pet card", section = staff, position = 93)
-	default boolean testPet()
-	{
-		return false;
-	}
-
-	@ConfigItem(keyName = "testDiary", name = "Test Diary", description = "Tick to post a sample diary card", section = staff, position = 94)
-	default boolean testDiary()
-	{
-		return false;
-	}
-
-	@ConfigItem(keyName = "testCombat", name = "Test Combat Achievement", description = "Tick to post a sample combat achievement card", section = staff, position = 95)
-	default boolean testCombat()
-	{
-		return false;
-	}
-
-	@ConfigItem(keyName = "testQuest", name = "Test Quest", description = "Tick to post a sample quest card", section = staff, position = 96)
-	default boolean testQuest()
-	{
-		return false;
-	}
-
-	@ConfigItem(keyName = "testKc", name = "Test Kill Count", description = "Tick to post a sample kill count card", section = staff, position = 97)
-	default boolean testKc()
-	{
-		return false;
-	}
-
-	@ConfigItem(keyName = "testPb", name = "Test Personal Best", description = "Tick to post a sample personal best card", section = staff, position = 98)
-	default boolean testPb()
-	{
-		return false;
-	}
 }

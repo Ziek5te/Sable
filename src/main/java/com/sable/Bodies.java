@@ -18,15 +18,4 @@ final class Bodies
 
 		return body;
 	}
-
-	/** "Post a marked sample card of this kind." The bot only does it for staff. */
-	static JsonObject test(String rsn, String kind)
-	{
-		JsonObject body = new JsonObject();
-		body.addProperty("type", "test");
-		body.addProperty("rsn", rsn);
-		body.addProperty("kind", kind);
-
-		return body;
-	}
 }

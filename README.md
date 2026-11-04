@@ -35,7 +35,6 @@ The panel's links open Discord pages in your browser.
   reported by RuneProfile a few minutes later if the member has it. Kill counts and personal bests have no other
   source: off means they are never announced.
 - **Clan Chat:** the two chat settings above.
-- **Staff Tools:** staff can post a sample card, marked TEST, in the clan's channel. Nothing is saved and no points are given.
 
 ## The side panel
 
