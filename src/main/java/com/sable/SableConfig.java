@@ -12,7 +12,7 @@ public interface SableConfig extends Config
 
 	@ConfigSection(
 		name = "Connection",
-		description = "Your key from the clan's Discord",
+		description = "Where the plugin sends data to, and the key that allows it. See Server Address for exactly what is sent.",
 		position = 0
 	)
 	String connection = "connection";
@@ -42,7 +42,7 @@ public interface SableConfig extends Config
 	@ConfigItem(
 		keyName = "address",
 		name = "Server Address",
-		description = "The clan's bot address, from the same message in Discord as your key. Without it nothing is sent.",
+		description = "The clan's bot address, from the same message in Discord as your key. Where the plugin sends data: the clan's own Sable bot, at this address, and nowhere else. Nothing is sent until you also enter your key. Then it sends your character name and your in-game events (drops, collection log, pets, diaries, combat tasks, quests, kill counts, personal bests). For group boss drops and personal bests it also sends the names of the clan members in your raid or instance, and only how many other players were there. A staff key also sends the clan's member list (names, ranks, join dates). With Relay Clan Chat on, it sends each clan chat line you see, who said it and what they said. It never writes into the clan chat. Rank pictures are downloaded from Discord's image servers.",
 		section = connection,
 		position = 0
 	)
