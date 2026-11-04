@@ -12,7 +12,7 @@ public interface SableConfig extends Config
 
 	@ConfigSection(
 		name = "Connection",
-		description = "Where the plugin sends data to, and the key that allows it. See Server Address for exactly what is sent.",
+		description = "The code from the clan's Discord that connects the plugin. See Sable Key for exactly what is sent.",
 		position = 0
 	)
 	String connection = "connection";
@@ -32,21 +32,9 @@ public interface SableConfig extends Config
 	String chat = "chat";
 
 	@ConfigItem(
-		keyName = "address",
-		name = "Server Address",
-		description = "The clan's bot address, from the same message in Discord as your key. Where the plugin sends data: the clan's own Sable bot, at this address, and nowhere else. Nothing is sent until you also enter your key. Then it sends your character name and your in-game events (drops, collection log, pets, diaries, combat tasks, quests, kill counts, personal bests). For group boss drops and personal bests it also sends the names of the clan members in your raid or instance, and only how many other players were there. A staff key also sends the clan's member list (names, ranks, join dates). With Relay Clan Chat on, it sends each clan chat line you see, who said it and what they said. It never writes into the clan chat. Rank pictures are downloaded from Discord's image servers.",
-		section = connection,
-		position = 0
-	)
-	default String address()
-	{
-		return "";
-	}
-
-	@ConfigItem(
 		keyName = "key",
 		name = "Sable Key",
-		description = "Run /plugin in the clan's Discord to get yours. Without it nothing is sent.",
+		description = "Run /plugin in the clan's Discord to get your code, and paste all of it here. Where the plugin sends data: the clan's own Sable bot, at the address inside this code, and nowhere else. Nothing is sent until a code is pasted here. Then it sends your character name and your in-game events (drops, collection log, pets, diaries, combat tasks, quests, kill counts, personal bests). For group boss drops and personal bests it also sends the names of the clan members in your raid or instance, and only how many other players were there. A staff key also sends the clan's member list (names, ranks, join dates). With Relay Clan Chat on, it sends each clan chat line you see, who said it and what they said. It never writes into the clan chat. Rank pictures are downloaded from Discord's image servers.",
 		secret = true,
 		section = connection,
 		position = 1

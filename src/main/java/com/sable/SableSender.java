@@ -80,28 +80,17 @@ class SableSender
 		warnedAboutKey = false;
 	}
 
-	// With no address there is nowhere to send to, so it counts as having no key.
+// The pasted code holds the key and the bot's address. With no address there is nowhere to send to, so it counts as having no key.
 	private String key()
 	{
-		return config.key() == null || address().isEmpty() ? "" : config.key().trim();
-	}
+		KeyCode code = KeyCode.parse(config.key());
 
-	/** The bot's address as typed in the settings, without a trailing slash; empty until it is filled in. */
-	private String address()
-	{
-		String a = config.address() == null ? "" : config.address().trim();
-
-		while (a.endsWith("/"))
-		{
-			a = a.substring(0, a.length() - 1);
-		}
-
-		return a;
+		return code.address.isEmpty() ? "" : code.key;
 	}
 
 	private HttpUrl url(String path)
 	{
-		String a = address();
+		String a = KeyCode.parse(config.key()).address;
 
 		return a.isEmpty() ? null : HttpUrl.parse(a + path);
 	}

@@ -5,8 +5,8 @@ collection log, pets, diaries, combat tasks, quests, kill counts and personal be
 the clan's bot as they happen, and shows the member's clan points, rank progress,
 recent points and every clan rank in a side panel. No screenshots and no uploads.
 
-It only works with a clan whose bot gives out an **address** and a **key**. Nothing is sent
-until both are entered under **Connection** in the plugin's settings. The data goes to
+It only works with a clan whose bot gives out a **code** (run `/plugin` in the clan's Discord). The code holds your
+key and the clan bot's address. Nothing is sent until it is pasted into **Sable Key** under **Connection** in the settings. The data goes to
 that clan's own server, not to RuneLite or any third party.
 
 ## What is sent
@@ -30,7 +30,7 @@ The panel's links open Discord pages in your browser.
 
 ## Settings
 
-- **Connection:** Server Address and Sable Key (from the clan's Discord), and whether the side panel icon shows.
+- **Connection:** Sable Key (the code from the clan's Discord), and whether the side panel icon shows.
 - **Reports:** a switch for each kind of event. Drops, collection log, pets, diaries, combat tasks and quests are also
   reported by RuneProfile a few minutes later if the member has it. Kill counts and personal bests have no other
   source: off means they are never announced.
